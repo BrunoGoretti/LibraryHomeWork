@@ -8,5 +8,6 @@ namespace Bookrental.Controllers
         {
             return View();
         }
+
     }
 }
