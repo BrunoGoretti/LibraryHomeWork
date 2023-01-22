@@ -10,5 +10,6 @@ namespace Bookrental.Data
         public ApiContext(DbContextOptions<ApiContext> options)
             : base(options) { }
         public DbSet<BookModel> BookModel => Set<BookModel>();
+        public DbSet<CustomerModel> CustomerModel => Set<CustomerModel>();
     }
 }

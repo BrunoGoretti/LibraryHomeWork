@@ -9,9 +9,9 @@ namespace Bookrental.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly CustomerApiContext _context;
+        private readonly ApiContext _context;
 
-        public CustomerController(CustomerApiContext context)
+        public CustomerController(ApiContext context)
         {
             _context = context;
         }
@@ -19,21 +19,21 @@ namespace Bookrental.Controllers
         [HttpPost]
         public async Task<ActionResult<List<CustomerModel>>> AddCustomer(CustomerModel customer)
         {
-            _context.CustomerModel.Add(customer);
+            _context.DbCustomer.Add(customer);
             await _context.SaveChangesAsync();
-            return Ok(await _context.CustomerModel.ToListAsync());
+            return Ok(await _context.DbCustomer.ToListAsync());
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CustomerModel>>> GetCustomer()
+        public async Task<ActionResult<List<CustomerModel>>> GetCustomers()
         {
-            return Ok(await _context.CustomerModel.ToListAsync());
+            return Ok(await _context.DbCustomer.ToListAsync());
         }
 
         [HttpPut]
         public async Task<ActionResult<List<CustomerModel>>> UpdateCustomer(CustomerModel customer)
         {
-            var dbCustomer = await _context.CustomerModel.FindAsync(customer.Id);
+            var dbCustomer = await _context.DbCustomer.FindAsync(customer.Id);
             if (dbCustomer == null)
             {
                 return BadRequest("Customer not found.");
@@ -43,22 +43,22 @@ namespace Bookrental.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.CustomerModel.ToListAsync());
+            return Ok(await _context.DbCustomer.ToListAsync());
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<CustomerModel>>> DeleteCustomer(int id)
         {
-            var dbCustomer = await _context.CustomerModel.FindAsync(id);
+            var dbCustomer = await _context.DbCustomer.FindAsync(id);
             if (dbCustomer == null)
             {
                 return BadRequest("Customer not found.");
             }
 
-            _context.CustomerModel.Remove(dbCustomer);
+            _context.DbCustomer.Remove(dbCustomer);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.CustomerModel.ToListAsync());
+            return Ok(await _context.DbCustomer.ToListAsync());
         }
     }
 }
