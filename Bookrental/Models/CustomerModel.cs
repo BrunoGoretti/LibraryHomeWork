@@ -1,8 +1,11 @@
-﻿namespace Bookrental.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookrental.Models
 {
     public class CustomerModel
     {
-        public int Id { get; set; }
+        [Key]
+        public int CustomerId { get; set; }
         public string? CustomerName { get; set; }
 
     }

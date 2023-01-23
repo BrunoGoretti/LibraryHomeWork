@@ -1,12 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bookrental.Data;
+using Bookrental.Models;
+using Microsoft.AspNetCore.Mvc;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookrental.Controllers
 {
-    public class RentController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RentController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly ApiContext _context;
+
+        public RentController(ApiContext context)
         {
-            return View();
+            _context = context;
         }
+
+        //[HttpPost("rent")]
+        //public async Task<ActionResult<List<RentBookModel>>> RentBook(RentBookModel rent)
+        //{
+        //    if (books.Contains(rent))
+        //    {
+        //        rent._context = true;
+        //        Console.WriteLine("Book rented successfully!");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Sorry, the book is not available for rent.");
+        //    }
+        //}
+
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookrental.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20230121172531_Initiald")]
-    partial class Initiald
+    [Migration("20230123133038_ASAS")]
+    partial class ASAS
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,32 +25,32 @@ namespace Bookrental.Migrations
 
             modelBuilder.Entity("Bookrental.Models.BookModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"), 1L, 1);
 
                     b.Property<string>("BookName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("BookId");
 
                     b.ToTable("BookModel");
                 });
 
             modelBuilder.Entity("Bookrental.Models.CustomerModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
 
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("CustomerModel");
                 });

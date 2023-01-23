@@ -32,7 +32,7 @@ namespace Bookrental.Controllers
         [HttpPut]
         public async Task<ActionResult<List<BookModel>>> UpdateBook(BookModel book)
         {
-            var dbBook = await _context.DbBook.FindAsync(book.Id);
+            var dbBook = await _context.DbBook.FindAsync(book.BookId);
             if (dbBook == null)
             {
                 return BadRequest("Book not found.");

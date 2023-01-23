@@ -1,8 +1,11 @@
-﻿namespace Bookrental.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Bookrental.Models
 {
     public class BookModel
     {
-        public int Id { get; set; }
+        [Key]
+        public int BookId { get; set; }
         public string? BookName { get; set; }
     }
 }
