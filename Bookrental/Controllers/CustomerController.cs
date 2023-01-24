@@ -29,44 +29,19 @@ namespace Bookrental.Controllers
         [HttpGet("RentedBooks")]
         public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
         {
+            var customer = _context.DbCustomer.Find(customerId);
+
+            if (customer == null)
+            {
+                return BadRequest("Customer not found.");
+            }
+
             var bookId = await _context.CustomerModel
                 .Where(x => x.CustomerId == customerId)
                 .Select(x => x.RentedBooks)
                 .FirstOrDefaultAsync();
-            if (bookId == null)
-            {
-                return NotFound();
-            }
-            return Ok(bookId);
 
-            //var customer = _context.DbCustomer.Find(id);
-            //var rentedBooks = _context.DbBook
-            //                .Where(b => b.BookId == id)
-            //                .ToList();
-            //customer.RentedBooks = rentedBooks;
-
-            //if (customer == null)
-            //{
-            //    return BadRequest("Customer not found.");
-            //}
-
-            //return Ok(customer);
-
-            //var customer = _context.DbCustomer.FirstOrDefault(c => c.CustomerId == customerId);
-            //if (customer == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var books = _context.DbBook.Where(b => b.BookId == customerId).ToList();
-            //var viewModel = new CustomerModel
-            //{
-            //    CustomerId = customer.CustomerId,
-            //    CustomerName = customer.CustomerName,
-            //    RentedBooks = books
-            //};
-
-            //return Ok(viewModel);
+            return Ok(customer);
         }
 
         [HttpGet("GetCustomers")]
