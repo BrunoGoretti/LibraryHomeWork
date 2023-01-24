@@ -10,18 +10,11 @@ namespace Bookrental.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ApiContext _context;
-        //private readonly List<BookModel> _book;
-
 
         public CustomerController(ApiContext context)
         {
             _context = context;
         }
-
-        //public ClientbookController(List<BookModel> bookcontext)
-        //{
-        //    _book = new List<BookModel>();
-        //}
 
         [HttpPost("AddCustomer")]
         public async Task<ActionResult<List<CustomerModel>>> AddCustomer(CustomerModel customer)
@@ -31,11 +24,22 @@ namespace Bookrental.Controllers
             return Ok(await _context.DbCustomer.ToListAsync());
         }
 
-        //[HttpGet("rented books")]
-        //public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
-        //{
+        [HttpGet("RentedBooks")]
+        public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int id)
+        {
+            var customer = _context.DbCustomer.Find(id);
+            var rentedBooks = _context.DbBook
+                            .Where(b => b.BookId == id)
+                            .ToList();
+            customer.RentedBooks = rentedBooks;
 
-        //}
+            if (customer == null)
+            {
+                return BadRequest("Customer not found.");
+            }
+
+            return Ok(customer);
+        }
 
         [HttpGet("GetCustomers")]
         public async Task<ActionResult<List<CustomerModel>>> GetCustomers()
