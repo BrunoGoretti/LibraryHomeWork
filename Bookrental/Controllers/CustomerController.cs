@@ -2,6 +2,7 @@
 using Bookrental.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace Bookrental.Controllers
 {
@@ -17,28 +18,55 @@ namespace Bookrental.Controllers
         }
 
         [HttpPost("AddCustomer")]
-        public async Task<ActionResult<List<CustomerModel>>> AddCustomer(CustomerModel customer)
+        public async Task<ActionResult<List<CustomerModel>>> AddCustomer(string customerName)
         {
+            var customer = new CustomerModel { CustomerName = customerName, RentedBooks = null };
             _context.DbCustomer.Add(customer);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return Ok(await _context.DbCustomer.ToListAsync());
         }
 
         [HttpGet("RentedBooks")]
-        public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int id)
+        public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
         {
-            var customer = _context.DbCustomer.Find(id);
-            var rentedBooks = _context.DbBook
-                            .Where(b => b.BookId == id)
-                            .ToList();
-            customer.RentedBooks = rentedBooks;
-
-            if (customer == null)
+            var bookId = await _context.CustomerModel
+                .Where(x => x.CustomerId == customerId)
+                .Select(x => x.RentedBooks)
+                .FirstOrDefaultAsync();
+            if (bookId == null)
             {
-                return BadRequest("Customer not found.");
+                return NotFound();
             }
+            return Ok(bookId);
 
-            return Ok(customer);
+            //var customer = _context.DbCustomer.Find(id);
+            //var rentedBooks = _context.DbBook
+            //                .Where(b => b.BookId == id)
+            //                .ToList();
+            //customer.RentedBooks = rentedBooks;
+
+            //if (customer == null)
+            //{
+            //    return BadRequest("Customer not found.");
+            //}
+
+            //return Ok(customer);
+
+            //var customer = _context.DbCustomer.FirstOrDefault(c => c.CustomerId == customerId);
+            //if (customer == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var books = _context.DbBook.Where(b => b.BookId == customerId).ToList();
+            //var viewModel = new CustomerModel
+            //{
+            //    CustomerId = customer.CustomerId,
+            //    CustomerName = customer.CustomerName,
+            //    RentedBooks = books
+            //};
+
+            //return Ok(viewModel);
         }
 
         [HttpGet("GetCustomers")]
