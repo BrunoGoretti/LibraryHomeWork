@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Bookrental.Models
 {
@@ -7,5 +8,7 @@ namespace Bookrental.Models
         [Key]
         public int BookId { get; set; }
         public string? BookName { get; set; }
+        [JsonIgnore]
+        public List<CustomerModel> RentedCustomer { get; set; }
     }
 }

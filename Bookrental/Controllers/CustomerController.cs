@@ -26,7 +26,7 @@ namespace Bookrental.Controllers
             return Ok(await _context.DbCustomer.ToListAsync());
         }
 
-        [HttpGet("RentedBooks")]
+        [HttpGet("GetOneCustomer")]
         public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
         {
             var customer = _context.DbCustomer.Find(customerId);
@@ -36,12 +36,13 @@ namespace Bookrental.Controllers
                 return BadRequest("Customer not found.");
             }
 
+
             var bookId = await _context.CustomerModel
                 .Where(x => x.CustomerId == customerId)
                 .Select(x => x.RentedBooks)
                 .FirstOrDefaultAsync();
 
-            return Ok(customer);
+            return Ok(new {customer, bookId});
         }
 
         [HttpGet("GetCustomers")]

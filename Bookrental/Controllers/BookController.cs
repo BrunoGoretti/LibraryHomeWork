@@ -15,21 +15,40 @@ namespace Bookrental.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<List<BookModel>>> AddBook(BookModel book)
+        [HttpPost("AddBook")]
+        public async Task<ActionResult<List<BookModel>>> AddBook(string bookName)
         {
-            _context.DbBook.Add(book);
-            await _context.SaveChangesAsync();
+            var books = new BookModel { BookName = bookName,};
+            _context.DbBook.Add(books);
+            _context.SaveChanges();
             return Ok(await _context.DbBook.ToListAsync());
         }
 
-        [HttpGet]
+        [HttpGet("GetOneBooks")]
+        public async Task<ActionResult<List<BookModel>>> GetOneBook(int bookId)
+        {
+            var book = _context.DbBook.Find(bookId);
+
+            if (book == null)
+            {
+                return BadRequest("Book not found.");
+            }
+
+            var customerId = await _context.BookModel
+                .Where(x => x.BookId == bookId)
+                .Select(x => x.RentedCustomer)
+                .FirstOrDefaultAsync();
+
+            return Ok(new { book, customerId });
+        }
+
+        [HttpGet("GetBooks")]
         public async Task<ActionResult<List<BookModel>>> GetBooks()
         {
             return Ok(await _context.DbBook.ToListAsync());
         }
 
-        [HttpPut]
+        [HttpPut("UpdateBook")]
         public async Task<ActionResult<List<BookModel>>> UpdateBook(BookModel book)
         {
             var dbBook = await _context.DbBook.FindAsync(book.BookId);
@@ -45,7 +64,7 @@ namespace Bookrental.Controllers
             return Ok(await _context.DbBook.ToListAsync());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id} DeleteBook")]
         public async Task<ActionResult<List<BookModel>>> DeleteBook(int id)
         {
             var dbBook = await _context.DbBook.FindAsync(id);
