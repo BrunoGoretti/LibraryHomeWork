@@ -36,10 +36,10 @@ namespace Bookrental.Controllers
 
             var customerId = await _context.BookModel
                 .Where(x => x.BookId == bookId)
-                .Select(x => x.RentedCustomer)
+                .Select(x => x.RentedDetails)
                 .FirstOrDefaultAsync();
 
-            return Ok(new { book, customerId });
+            return Ok(book);
         }
 
         [HttpGet("GetBooks")]
@@ -61,10 +61,10 @@ namespace Bookrental.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.DbBook.ToListAsync());
+            return Ok(dbBook);
         }
 
-        [HttpDelete("{id} DeleteBook")]
+        [HttpDelete("DeleteBook/{id}")]
         public async Task<ActionResult<List<BookModel>>> DeleteBook(int id)
         {
             var dbBook = await _context.DbBook.FindAsync(id);

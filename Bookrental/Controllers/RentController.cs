@@ -16,19 +16,39 @@ namespace Bookrental.Controllers
             _context = context;
         }
 
-        //[HttpPost("rent")]
-        //public async Task<ActionResult<List<RentBookModel>>> RentBook(RentBookModel rent)
-        //{
-        //    if (books.Contains(rent))
-        //    {
-        //        rent._context = true;
-        //        Console.WriteLine("Book rented successfully!");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Sorry, the book is not available for rent.");
-        //    }
-        //}
+        [HttpPost("Rent")]
+        public async Task<ActionResult<List<BookModel>>> Rent(int bookId, int customerId)
+        {
+            var book = _context.DbBook.Find(bookId);
+            var customer = _context.DbCustomer.Find(customerId);
 
+            if (book == null || customer == null)
+            {
+                return BadRequest("Book or customer not found.");
+            }
+
+            book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
+            _context.DbBook.Update(book);
+            await _context.SaveChangesAsync();
+
+            return Ok(book);
+        }
+
+        [HttpPost("Return")]
+        public async Task<ActionResult<List<BookModel>>> Return(int bookId)
+        {
+            var book = _context.DbBook.Find(bookId);
+
+            if (book == null)
+            {
+                return BadRequest("Book not found.");
+            }
+
+            book.RentedDetails = null;
+            _context.DbBook.Update(book);
+            await _context.SaveChangesAsync();
+
+            return Ok(book);
+        }
     }
 }

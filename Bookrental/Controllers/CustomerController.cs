@@ -20,7 +20,7 @@ namespace Bookrental.Controllers
         [HttpPost("AddCustomer")]
         public async Task<ActionResult<List<CustomerModel>>> AddCustomer(string customerName)
         {
-            var customer = new CustomerModel { CustomerName = customerName, RentedBooks = null };
+            var customer = new CustomerModel {CustomerName = customerName};
             _context.DbCustomer.Add(customer);
             _context.SaveChanges();
             return Ok(await _context.DbCustomer.ToListAsync());
@@ -42,7 +42,7 @@ namespace Bookrental.Controllers
                 .Select(x => x.RentedBooks)
                 .FirstOrDefaultAsync();
 
-            return Ok(new {customer, bookId});
+            return Ok(customer);
         }
 
         [HttpGet("GetCustomers")]
@@ -64,10 +64,10 @@ namespace Bookrental.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.DbCustomer.ToListAsync());
+            return Ok(dbCustomer);
         }
 
-        [HttpDelete("{id} DeleteCustomer")]
+        [HttpDelete("DeleteCustomer/{id}")]
         public async Task<ActionResult<List<CustomerModel>>> DeleteCustomer(int id)
         {
             var dbCustomer = await _context.DbCustomer.FindAsync(id);

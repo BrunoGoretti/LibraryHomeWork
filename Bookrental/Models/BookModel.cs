@@ -8,7 +8,6 @@ namespace Bookrental.Models
         [Key]
         public int BookId { get; set; }
         public string? BookName { get; set; }
-        [JsonIgnore]
-        public List<CustomerModel> RentedCustomer { get; set; }
+        public string? RentedDetails { get; set; }
     }
 }
