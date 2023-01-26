@@ -36,13 +36,25 @@ namespace Bookrental.Controllers
                 return BadRequest("Customer not found.");
             }
 
-
-            var bookId = await _context.CustomerModel
+            await _context.CustomerModel
                 .Where(x => x.CustomerId == customerId)
                 .Select(x => x.RentedBooks)
                 .FirstOrDefaultAsync();
 
             return Ok(customer);
+
+            //var customer = _context.DbCustomer.Find(customerId);
+            //var rentedBooks = _context.DbBook
+            //                .Where(b => b.BookId == customerId)
+            //                .ToList();
+            //customer.RentedBooks = rentedBooks;
+
+            //if (customer == null)
+            //{
+            //    return BadRequest("Customer not found.");
+            //}
+
+            //return Ok(customer);
         }
 
         [HttpGet("GetCustomers")]

@@ -4,7 +4,7 @@
 
 namespace Bookrental.Migrations
 {
-    public partial class Initialaa : Migration
+    public partial class Initialss : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

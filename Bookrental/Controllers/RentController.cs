@@ -22,14 +22,28 @@ namespace Bookrental.Controllers
             var book = _context.DbBook.Find(bookId);
             var customer = _context.DbCustomer.Find(customerId);
 
-            if (book == null || customer == null)
+            if (book == null)
             {
-                return BadRequest("Book or customer not found.");
+                return BadRequest("Book not found.");
+            }
+            else if (customer == null)
+            {
+                return BadRequest("Customer not found.");
             }
 
             book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
             _context.DbBook.Update(book);
+
+            var rentedBooks = _context.DbBook
+                            .Where(b => b.BookId == customerId)
+                            .ToList();
+            customer.RentedBooks = rentedBooks;
+            customer.RentedBooks.Add(book);
+            _context.DbCustomer.Update(customer);
+
+
             await _context.SaveChangesAsync();
+
 
             return Ok(book);
         }

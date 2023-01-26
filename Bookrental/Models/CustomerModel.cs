@@ -8,6 +8,6 @@ namespace Bookrental.Models
         [Key]
         public int CustomerId { get; set; }
         public string? CustomerName { get; set; }
-        public List<BookModel> RentedBooks { get; set; }
+        public List<BookModel>? RentedBooks { get; set; }
     }
 }
