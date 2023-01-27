@@ -49,14 +49,22 @@ namespace Bookrental.Controllers
         }
 
         [HttpPost("Return")]
-        public async Task<ActionResult<List<BookModel>>> Return(int bookId)
+        public async Task<ActionResult<List<BookModel>>> Return(int bookId, int customerId)
         {
             var book = _context.DbBook.Find(bookId);
+            var customer = _context.DbCustomer.Find(customerId);
 
             if (book == null)
             {
                 return BadRequest("Book not found.");
             }
+
+            var rentedBooks = _context.DbBook
+                .Where(b => b.BookId == customerId)
+                .ToList();
+            customer.RentedBooks = rentedBooks;
+            customer.RentedBooks.Remove(book);
+            _context.DbCustomer.Update(customer);
 
             book.RentedDetails = null;
             _context.DbBook.Update(book);
