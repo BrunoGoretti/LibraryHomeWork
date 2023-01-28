@@ -29,38 +29,32 @@ namespace Bookrental.Controllers
         [HttpGet("GetOneCustomer")]
         public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
         {
-            var customer = _context.DbCustomer.Find(customerId);
+            var customer = await _context.DbCustomer
+                 .Include(c => c.RentedBooks)
+                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             if (customer == null)
             {
                 return BadRequest("Customer not found.");
             }
 
-            await _context.CustomerModel
-                .Where(x => x.CustomerId == customerId)
-                .Select(x => x.RentedBooks)
-                .FirstOrDefaultAsync();
+            customer.RentedBooks = await _context.CustomerModel
+                            .Where(x => x.CustomerId == customerId)
+                            .Select(x => x.RentedBooks)
+                            .FirstOrDefaultAsync();
 
             return Ok(customer);
-
-            //var customer = _context.DbCustomer.Find(customerId);
-            //var rentedBooks = _context.DbBook
-            //                .Where(b => b.BookId == customerId)
-            //                .ToList();
-            //customer.RentedBooks = rentedBooks;
-
-            //if (customer == null)
-            //{
-            //    return BadRequest("Customer not found.");
-            //}
-
-            //return Ok(customer);
         }
 
         [HttpGet("GetCustomers")]
         public async Task<ActionResult<List<CustomerModel>>> GetCustomers()
         {
-            return Ok(await _context.DbCustomer.ToListAsync());
+            var customer = await _context.DbCustomer.ToListAsync();
+            await _context.CustomerModel
+                            .Select(x => x.RentedBooks)
+                            .ToListAsync();
+            
+            return Ok(customer);
         }
 
         [HttpPut("UpdateCustomer")]

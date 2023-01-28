@@ -31,6 +31,25 @@ namespace Bookrental.Controllers
                 return BadRequest("Customer not found.");
             }
 
+            //A book can only be rented put by one customer at any point in time 
+
+            if (book.RentedDetails != null)
+            {
+                return BadRequest("Book is already rented.");
+            }
+
+            // A customer is only allowed to rent up to two books simultaneously
+
+            //if (customer.RentedBooks == null)
+            //{
+            //    return BadRequest("RentedBook is null");
+            //}
+
+            //if (customer.RentedBooks.Count >= 2)
+            //{
+            //    return BadRequest("A customer is only allowed to rent up to two books simultaneously.");
+            //}
+
             book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
             _context.DbBook.Update(book);
 
