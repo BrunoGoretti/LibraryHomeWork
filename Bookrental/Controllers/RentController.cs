@@ -1,6 +1,7 @@
 ﻿using Bookrental.Data;
 using Bookrental.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookrental.Controllers
@@ -20,7 +21,19 @@ namespace Bookrental.Controllers
         public async Task<ActionResult<List<BookModel>>> Rent(int bookId, int customerId)
         {
             var book = _context.DbBook.Find(bookId);
-            var customer = _context.DbCustomer.Find(customerId);
+            //var customer = _context.DbCustomer.Find(customerId);
+            var customer = await _context.DbCustomer
+                      .FirstOrDefaultAsync(c => c.CustomerId == customerId);
+
+            customer.RentedBooks = await _context.CustomerModel
+                         .Where(x => x.CustomerId == customerId)
+                         .SelectMany(x => x.RentedBooks)
+                         .ToListAsync();
+
+
+            //_context.CustomerModel
+            //    .Where(x => x.CustomerId == customerId)
+            //    .Select(x => x.RentedBooks);
 
             if (book == null)
             {
@@ -29,6 +42,25 @@ namespace Bookrental.Controllers
             else if (customer == null)
             {
                 return BadRequest("Customer not found.");
+            }
+
+            //A book can only be rented put by one customer at any point in time 
+
+            if (book.RentedDetails != null)
+            {
+                return BadRequest("Book is already rented.");
+            }
+
+            // A customer is only allowed to rent up to two books simultaneously
+
+            if (customer.RentedBooks == null)
+            {
+                return BadRequest("RentedBook is null");
+            }
+
+            if (customer.RentedBooks.Count >= 2)
+            {
+                return BadRequest("A customer is only allowed to rent up to two books simultaneously.");
             }
 
             book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
@@ -45,7 +77,7 @@ namespace Bookrental.Controllers
             await _context.SaveChangesAsync();
 
 
-            return Ok(book);
+            return Ok(customer);
         }
 
         [HttpPost("Return")]

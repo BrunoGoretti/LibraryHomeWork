@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookrental.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20230126152913_Initialss")]
-    partial class Initialss
+    [Migration("20230127230745_Initialaaaa")]
+    partial class Initialaaaa
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

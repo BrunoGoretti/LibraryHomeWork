@@ -20,41 +20,36 @@ namespace Bookrental.Controllers
         [HttpPost("AddCustomer")]
         public async Task<ActionResult<List<CustomerModel>>> AddCustomer(string customerName)
         {
-            var customer = new CustomerModel {CustomerName = customerName};
+            var customer = new CustomerModel
+            {
+                CustomerName = customerName,
+                RentedBooks = new List<BookModel>()
+            };
             _context.DbCustomer.Add(customer);
             _context.SaveChanges();
-            return Ok(await _context.DbCustomer.ToListAsync());
+            return Ok(customer);
         }
 
         [HttpGet("GetOneCustomer")]
-        public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
+        public async Task<ActionResult<List<CustomerModel>>> GetOneCustomer(int customerId)
         {
-            var customer = _context.DbCustomer.Find(customerId);
+            //var customer = _context.DbCustomer.Find(customerId);
+
+            var customer = await _context.DbCustomer
+                     .Include(c => c.RentedBooks)
+                     .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             if (customer == null)
             {
                 return BadRequest("Customer not found.");
             }
 
-            await _context.CustomerModel
-                .Where(x => x.CustomerId == customerId)
-                .Select(x => x.RentedBooks)
-                .FirstOrDefaultAsync();
+            customer.RentedBooks = await _context.CustomerModel
+                            .Where(x => x.CustomerId == customerId)
+                            .Select(x => x.RentedBooks)
+                            .FirstOrDefaultAsync();
 
             return Ok(customer);
-
-            //var customer = _context.DbCustomer.Find(customerId);
-            //var rentedBooks = _context.DbBook
-            //                .Where(b => b.BookId == customerId)
-            //                .ToList();
-            //customer.RentedBooks = rentedBooks;
-
-            //if (customer == null)
-            //{
-            //    return BadRequest("Customer not found.");
-            //}
-
-            //return Ok(customer);
         }
 
         [HttpGet("GetCustomers")]
