@@ -53,7 +53,11 @@ namespace Bookrental.Controllers
             await _context.CustomerModel
                             .Select(x => x.RentedBooks)
                             .ToListAsync();
-            
+
+            foreach (var c in customer)
+            {
+                c.RentedBooks ??= new List<BookModel>();
+            }
             return Ok(customer);
         }
 
@@ -73,19 +77,38 @@ namespace Bookrental.Controllers
             return Ok(dbCustomer);
         }
 
-        [HttpDelete("DeleteCustomer/{id}")]
-        public async Task<ActionResult<List<CustomerModel>>> DeleteCustomer(int id)
+        [HttpDelete("DeleteCustomer")]
+        public async Task<ActionResult<List<CustomerModel>>> DeleteCustomer(int customerId)
         {
-            var dbCustomer = await _context.DbCustomer.FindAsync(id);
-            if (dbCustomer == null)
+
+            var customer = _context.DbCustomer.Find(customerId);
+            if (customer == null)
             {
                 return BadRequest("Customer not found.");
             }
 
-            _context.DbCustomer.Remove(dbCustomer);
+            var rentedBooks = _context.DbBook
+                                .Where(b => b.RentedDetails != null && b.RentedDetails.Contains(customer.CustomerName))
+                                .ToList();
+            if (rentedBooks.Count > 0)
+            {
+                return BadRequest("Customer cannot be removed as they are currently renting books.");
+            }
+
+            _context.DbCustomer.Remove(customer);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.DbCustomer.ToListAsync());
+            return Ok();
+            //var dbCustomer = await _context.DbCustomer.FindAsync(id);
+            //if (dbCustomer == null)
+            //{
+            //    return BadRequest("Customer not found.");
+            //}
+
+            //_context.DbCustomer.Remove(dbCustomer);
+            //await _context.SaveChangesAsync();
+
+            //return Ok(await _context.DbCustomer.ToListAsync());
         }
     }
 }

@@ -38,24 +38,22 @@ namespace Bookrental.Controllers
                 return BadRequest("Book is already rented.");
             }
 
-            // A customer is only allowed to rent up to two books simultaneously
-
-            //if (customer.RentedBooks == null)
-            //{
-            //    return BadRequest("RentedBook is null");
-            //}
-
-            //if (customer.RentedBooks.Count >= 2)
-            //{
-            //    return BadRequest("A customer is only allowed to rent up to two books simultaneously.");
-            //}
 
             book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
             _context.DbBook.Update(book);
 
+            // A customer is only allowed to rent up to two books simultaneously
+
             var rentedBooks = _context.DbBook
-                            .Where(b => b.BookId == customerId)
+                            .Where(b => b.RentedDetails != null && b.RentedDetails
+                            .Contains(customer.CustomerName))
                             .ToList();
+
+            if (rentedBooks.Count >= 2)
+            {
+                return BadRequest("Customer has already rented the maximum of two books.");
+            }
+
             customer.RentedBooks = rentedBooks;
             customer.RentedBooks.Add(book);
             _context.DbCustomer.Update(customer);

@@ -45,7 +45,17 @@ namespace Bookrental.Controllers
         [HttpGet("GetBooks")]
         public async Task<ActionResult<List<BookModel>>> GetBooks()
         {
-            return Ok(await _context.DbBook.ToListAsync());
+            var customer = await _context.DbBook.ToListAsync();
+            await _context.BookModel
+                            .Select(x => x.RentedDetails)
+                            .ToListAsync();
+
+            foreach (var book in customer)
+            {
+                book.RentedDetails ??= "";
+            }
+
+            return Ok(customer);
         }
 
         [HttpPut("UpdateBook")]
