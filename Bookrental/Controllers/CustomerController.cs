@@ -26,8 +26,8 @@ namespace Bookrental.Controllers
             return Ok(await _context.DbCustomer.ToListAsync());
         }
 
-        [HttpGet("GetOneCustomer")]
-        public async Task<ActionResult<List<CustomerModel>>> GetCustomersBooks(int customerId)
+        [HttpGet("GetCustomer")]
+        public async Task<ActionResult<List<CustomerModel>>> GetCustomer(int customerId)
         {
             var customer = await _context.DbCustomer
                  .Include(c => c.RentedBooks)
@@ -99,16 +99,6 @@ namespace Bookrental.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-            //var dbCustomer = await _context.DbCustomer.FindAsync(id);
-            //if (dbCustomer == null)
-            //{
-            //    return BadRequest("Customer not found.");
-            //}
-
-            //_context.DbCustomer.Remove(dbCustomer);
-            //await _context.SaveChangesAsync();
-
-            //return Ok(await _context.DbCustomer.ToListAsync());
         }
     }
 }

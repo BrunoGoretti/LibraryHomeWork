@@ -21,11 +21,11 @@ namespace Bookrental.Controllers
             var books = new BookModel { BookName = bookName,};
             _context.DbBook.Add(books);
             _context.SaveChanges();
-            return Ok(await _context.DbBook.ToListAsync());
+            return Ok(await _context.DbBook.Where(x => x.BookName == bookName).FirstOrDefaultAsync());
         }
 
-        [HttpGet("GetOneBooks")]
-        public async Task<ActionResult<List<BookModel>>> GetOneBook(int bookId)
+        [HttpGet("GetBook")]
+        public async Task<ActionResult<List<BookModel>>> GetBook(int bookId)
         {
             var book = _context.DbBook.Find(bookId);
 
