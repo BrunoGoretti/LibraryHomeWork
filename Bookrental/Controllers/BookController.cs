@@ -23,6 +23,7 @@ namespace Bookrental.Controllers
         {
             var result = _bookService.AddBook(bookName);
             return Ok(result);
+
         }
 
         [HttpGet("GetBook")]

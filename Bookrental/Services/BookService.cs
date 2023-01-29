@@ -28,7 +28,7 @@ namespace Bookrental.Services
             var book = _context.DbBook.Find(bookId);
 
             if (book == null)
-            {
+            { 
                 return BadRequest("Book not found.");
             }
 
