@@ -5,7 +5,8 @@ namespace Bookrental.Services.Interfaces
 {
     public interface IBookService
     {
-        public Task<ActionResult<List<BookModel>>> AddBook(string bookName);
+        Task<BookModel> AddBook(string bookName);
+        Task<BookModel> GetBook(int bookId);
 
     }
 }

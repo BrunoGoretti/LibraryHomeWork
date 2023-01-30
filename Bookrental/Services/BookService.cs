@@ -15,29 +15,29 @@ namespace Bookrental.Services
             _context = context;
         }
 
-        public Task<ActionResult<List<BookModel>>> AddBook(string bookName)
+        public async Task<BookModel> AddBook(string bookName)
         {
-            var books = new BookModel { BookName = bookName};
-            _context.DbBook.Add(books);
+            var book = new BookModel { BookName = bookName };
+            _context.DbBook.Add(book);
             _context.SaveChanges();
-            return Ok( _context.DbBook.Where(x => x.BookName == bookName).FirstOrDefaultAsync());
+            return await _context.DbBook.Where(x => x.BookName == bookName).FirstOrDefaultAsync();
         }
 
-        public Task<ActionResult<List<BookModel>>> GetBook(int bookId)
+        public async Task<BookModel> GetBook(int bookId)
         {
             var book = _context.DbBook.Find(bookId);
 
             if (book == null)
-            { 
-                return BadRequest("Book not found.");
+            {
+               throw new Exception ("Book not found.");
             }
 
-            var customerId =  _context.BookModel
+            var customerId = _context.BookModel
                 .Where(x => x.BookId == bookId)
                 .Select(x => x.RentedDetails)
                 .FirstOrDefaultAsync();
 
-            return Ok(book);
+            return book;
         }
     }
 }

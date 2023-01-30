@@ -19,17 +19,16 @@ namespace Bookrental.Controllers
         }
 
         [HttpPost("AddBook")]
-        public async Task<ActionResult<List<BookModel>>> AddBook(string bookName)
+        public async Task<ActionResult> AddBook(string bookName)
         {
-            var result = _bookService.AddBook(bookName);
-            return Ok(result);
-
+            var book = await _bookService.AddBook(bookName);
+            return Ok(book);
         }
 
         [HttpGet("GetBook")]
-        public async Task<ActionResult<List<BookModel>>> GetBook(int bookId)
+        public async Task<ActionResult> GetBook(int bookId)
         {
-            var result = _context.DbBook.Find(bookId);
+            var result = await _bookService.GetBook(bookId);
             return Ok(result);
         }
 
