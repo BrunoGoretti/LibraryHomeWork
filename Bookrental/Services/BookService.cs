@@ -39,5 +39,50 @@ namespace Bookrental.Services
 
             return book;
         }
+
+        public async Task<List<BookModel>> GetBooks()
+        {
+            var customer = await _context.DbBook.ToListAsync();
+            await _context.BookModel
+                            .Select(x => x.RentedDetails)
+                            .ToListAsync();
+
+            foreach (var book in customer)
+            {
+                book.RentedDetails ??= "";
+            }
+
+            return customer;
+        }
+
+        public async Task<BookModel> UpdateBook(BookModel book)
+        {
+            var dbBook = await _context.DbBook.FindAsync(book.BookId);
+            if (dbBook == null)
+            {
+                throw new Exception ("Book not found.");
+            }
+
+            dbBook.BookName = book.BookName;
+
+            await _context.SaveChangesAsync();
+
+            return dbBook;
+        }
+
+        public async Task<BookModel> DeleteBook(int id)
+        {
+            var dbBook = await _context.DbBook.FindAsync(id);
+            if (dbBook == null)
+            {
+                throw new Exception ("Book not found.");
+            }
+
+            _context.DbBook.Remove(dbBook);
+            await _context.SaveChangesAsync();
+
+            await _context.DbBook.ToListAsync();
+            return dbBook;
+        }
     }
 }

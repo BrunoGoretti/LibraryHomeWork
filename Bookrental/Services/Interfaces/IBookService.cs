@@ -7,6 +7,8 @@ namespace Bookrental.Services.Interfaces
     {
         Task<BookModel> AddBook(string bookName);
         Task<BookModel> GetBook(int bookId);
-
+        Task<List<BookModel>> GetBooks();
+        Task<BookModel> UpdateBook(BookModel book);
+        Task<BookModel> DeleteBook(int id);
     }
 }

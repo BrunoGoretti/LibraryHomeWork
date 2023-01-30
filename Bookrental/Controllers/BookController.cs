@@ -33,50 +33,24 @@ namespace Bookrental.Controllers
         }
 
         [HttpGet("GetBooks")]
-        public async Task<ActionResult<List<BookModel>>> GetBooks()
+        public async Task<ActionResult> GetBooks()
         {
-            var customer = await _context.DbBook.ToListAsync();
-            await _context.BookModel
-                            .Select(x => x.RentedDetails)
-                            .ToListAsync();
-
-            foreach (var book in customer)
-            {
-                book.RentedDetails ??= "";
-            }
-
-            return Ok(customer);
+            var result = await _bookService.GetBooks();
+            return Ok(result);
         }
 
         [HttpPut("UpdateBook")]
-        public async Task<ActionResult<List<BookModel>>> UpdateBook(BookModel book)
+        public async Task<ActionResult> UpdateBook(BookModel book)
         {
-            var dbBook = await _context.DbBook.FindAsync(book.BookId);
-            if (dbBook == null)
-            {
-                return BadRequest("Book not found.");
-            }
-
-            dbBook.BookName = book.BookName;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(dbBook);
+            var result = await _bookService.UpdateBook(book);
+            return Ok(result);
         }
 
         [HttpDelete("DeleteBook/{id}")]
-        public async Task<ActionResult<List<BookModel>>> DeleteBook(int id)
+        public async Task<ActionResult> DeleteBook(int id)
         {
-            var dbBook = await _context.DbBook.FindAsync(id);
-            if (dbBook == null)
-            {
-                return BadRequest("Book not found.");
-            }
-
-            _context.DbBook.Remove(dbBook);
-            await _context.SaveChangesAsync();
-
-            return Ok(await _context.DbBook.ToListAsync());
+            var result = await _bookService.DeleteBook(id);
+            return Ok(result);
         }
     }
 }
