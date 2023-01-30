@@ -2,7 +2,6 @@
 using Bookrental.Models;
 using Bookrental.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bookrental.Controllers
 {
@@ -10,11 +9,9 @@ namespace Bookrental.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly ApiContext _context;
         private readonly IBookService _bookService;
-        public BookController(ApiContext context, IBookService bookService)
+        public BookController(IBookService bookService)
         {
-            _context = context;
             _bookService = bookService;
         }
 
