@@ -1,4 +1,6 @@
 using Bookrental.Data;
+using Bookrental.Services.Interfaces;
+using Bookrental.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -10,6 +12,8 @@ builder.Services.AddDbContext<ApiContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

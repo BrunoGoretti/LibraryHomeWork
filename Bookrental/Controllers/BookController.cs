@@ -1,5 +1,6 @@
 ﻿using Bookrental.Data;
 using Bookrental.Models;
+using Bookrental.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,36 +11,25 @@ namespace Bookrental.Controllers
     public class BookController : ControllerBase
     {
         private readonly ApiContext _context;
-        public BookController(ApiContext context)
+        private readonly IBookService _bookService;
+        public BookController(ApiContext context, IBookService bookService)
         {
             _context = context;
+            _bookService = bookService;
         }
 
         [HttpPost("AddBook")]
-        public async Task<ActionResult<List<BookModel>>> AddBook(string bookName)
+        public async Task<ActionResult> AddBook(string bookName)
         {
-            var books = new BookModel { BookName = bookName,};
-            _context.DbBook.Add(books);
-            _context.SaveChanges();
-            return Ok(await _context.DbBook.Where(x => x.BookName == bookName).FirstOrDefaultAsync());
+            var book = await _bookService.AddBook(bookName);
+            return Ok(book);
         }
 
         [HttpGet("GetBook")]
-        public async Task<ActionResult<List<BookModel>>> GetBook(int bookId)
+        public async Task<ActionResult> GetBook(int bookId)
         {
-            var book = _context.DbBook.Find(bookId);
-
-            if (book == null)
-            {
-                return BadRequest("Book not found.");
-            }
-
-            var customerId = await _context.BookModel
-                .Where(x => x.BookId == bookId)
-                .Select(x => x.RentedDetails)
-                .FirstOrDefaultAsync();
-
-            return Ok(book);
+            var result = await _bookService.GetBook(bookId);
+            return Ok(result);
         }
 
         [HttpGet("GetBooks")]
