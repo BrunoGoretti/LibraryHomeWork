@@ -1,10 +1,6 @@
-﻿using Bookrental.Data;
-using Bookrental.Models;
-using Bookrental.Services;
+﻿using Bookrental.Models;
 using Bookrental.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace Bookrental.Controllers
 {
@@ -12,13 +8,11 @@ namespace Bookrental.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ApiContext _context;
         private readonly ICustomerService _customerService;
 
-        public CustomerController(ApiContext context, ICustomerService customerService)
+        public CustomerController(ICustomerService customerService)
         {
             _customerService = customerService;
-            _context = context;
         }
 
         [HttpPost("AddCustomer")]
@@ -43,14 +37,14 @@ namespace Bookrental.Controllers
         }
 
         [HttpPut("UpdateCustomer")]
-        public async Task<ActionResult<List<CustomerModel>>> UpdateCustomer(CustomerModel customer)
+        public async Task<ActionResult> UpdateCustomer(CustomerModel customer)
         {
             var result = await _customerService.UpdateCustomer(customer);
             return Ok(result);
         }
 
         [HttpDelete("DeleteCustomer")]
-        public async Task<ActionResult<List<CustomerModel>>> DeleteCustomer(int customerId)
+        public async Task<ActionResult> DeleteCustomer(int customerId)
         {
             var result = await _customerService.DeleteCustomer(customerId);
             return Ok(result);

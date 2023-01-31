@@ -1,5 +1,4 @@
-﻿using Bookrental.Data;
-using Bookrental.Models;
+﻿using Bookrental.Models;
 using Bookrental.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
