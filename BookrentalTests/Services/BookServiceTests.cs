@@ -17,21 +17,56 @@ namespace Bookrental.Services.Tests
     [TestClass()]
     public class BookServiceTests
     {
-        //public class BookServiceTests
-        //{
+        private BookService _bookService;
+        private DbContextOptions<ApiContext> _options;
 
-        //    [Fact]
-        //    public async Task AddBook_ShouldAddBookToDbBook()
-        //    {
-        //        // Arrange
-        //        var service = new BookService();
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            // Arrange
+            _options = new DbContextOptionsBuilder<ApiContext>()
+                .UseInMemoryDatabase(databaseName: "AddBook")
+                .Options;
 
-        //        // Act
+            _bookService = new BookService(new ApiContext(_options));
+        }
 
+        [TestMethod]
+        public async Task AddBook_WithValidInput_ReturnsBookModel()
+        {
+            // arrange  
+            var str = "The Hitchhiker's Guide to the Galaxy";
 
-        //        // Assert
+            // Act
+            var result = await _bookService.AddBook(str);
 
-        //    }
-        //}
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(str, result.BookName);
+        }
+
+        [TestMethod]
+        public async Task AddBook_WithNullInput_ThrowsArgumentNullException()
+        {
+            // Act and Assert
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                _bookService.AddBook(null));
+        }
+
+        [TestMethod]
+        public async Task AddBook_WithValidInput_AddsBookToContext()
+        {
+            // arrange  
+            var str = "The Hitchhiker's Guide to the Galaxy";
+
+            // Act
+            await _bookService.AddBook(str);
+
+            // Assert
+            var context = new ApiContext(_options);
+            var books = context.DbBook.ToList();
+            Assert.AreEqual(1, books.Count);
+            Assert.AreEqual(str, books[0].BookName);
+        }
     }
 }
