@@ -18,8 +18,16 @@ namespace Bookrental.Services
         {
             var book = new BookModel { BookName = bookName };
             _context.DbBook.Add(book);
+
+            if (book.RentedDetails == null)
+            {
+                book.RentedDetails ??= "";
+            }
+
             _context.SaveChanges();
-            return await _context.DbBook.Where(x => x.BookName == bookName).FirstOrDefaultAsync();
+            _context.DbBook.Where(x => x.BookName == bookName)
+                .FirstOrDefaultAsync();
+            return book;
         }
 
         public async Task<BookModel> GetBook(int bookId)
