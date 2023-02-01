@@ -16,8 +16,14 @@ namespace Bookrental.Services
 
         public async Task<BookModel> AddBook(string bookName)
         {
+            if(bookName == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
             var book = new BookModel { BookName = bookName };
             _context.DbBook.Add(book);
+
 
             if (book.RentedDetails == null)
             {
