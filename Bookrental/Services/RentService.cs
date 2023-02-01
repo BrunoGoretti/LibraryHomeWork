@@ -1,8 +1,6 @@
 ﻿using Bookrental.Data;
 using Bookrental.Models;
 using Bookrental.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bookrental.Services
 {
