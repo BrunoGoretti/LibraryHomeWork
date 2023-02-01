@@ -80,6 +80,12 @@ namespace Bookrental.Services
 
             book.RentedDetails = null;
             _context.DbBook.Update(book);
+
+            if (book.RentedDetails == null)
+            {
+                book.RentedDetails ??= "";
+            }
+
             await _context.SaveChangesAsync();
 
             return book;

@@ -18,8 +18,15 @@ namespace Bookrental.Services
         {
             var customer = new CustomerModel { CustomerName = customerName };
             _context.DbCustomer.Add(customer);
+
+            if (customer.RentedBooks == null)
+            {
+                customer.RentedBooks ??= new List<BookModel>();
+            }
+
             _context.SaveChanges();
-            return await _context.DbCustomer.Where(x => x.CustomerName == customerName).FirstOrDefaultAsync();
+            _context.DbCustomer.Where(x => x.CustomerName == customerName).FirstOrDefaultAsync();
+            return customer;
         }
 
         public async Task<CustomerModel> GetCustomer(int customerId)
@@ -65,6 +72,11 @@ namespace Bookrental.Services
 
             dbCustomer.CustomerName = customer.CustomerName;
 
+            if (dbCustomer.RentedBooks == null)
+            {
+                dbCustomer.RentedBooks ??= new List<BookModel>();
+            }
+
             await _context.SaveChangesAsync();
 
             return dbCustomer;
@@ -88,6 +100,12 @@ namespace Bookrental.Services
             }
 
             _context.DbCustomer.Remove(customer);
+
+            if (customer.RentedBooks == null)
+            {
+                customer.RentedBooks ??= new List<BookModel>(); 
+            }
+
             await _context.SaveChangesAsync();
 
             return customer;
