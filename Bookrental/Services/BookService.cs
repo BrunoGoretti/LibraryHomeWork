@@ -31,10 +31,17 @@ namespace Bookrental.Services
                throw new Exception ("Book not found.");
             }
 
-            var customerId = _context.BookModel
+            var customerId = await _context.BookModel
                 .Where(x => x.BookId == bookId)
                 .Select(x => x.RentedDetails)
                 .FirstOrDefaultAsync();
+
+            if (customerId == null)
+            {
+                customerId ??= "";
+            }
+
+            book.RentedDetails = customerId;
 
             return book;
         }
@@ -64,6 +71,11 @@ namespace Bookrental.Services
 
             dbBook.BookName = book.BookName;
 
+            if (dbBook.RentedDetails == null)
+            {
+                dbBook.RentedDetails ??= "";
+            }
+
             await _context.SaveChangesAsync();
 
             return dbBook;
@@ -78,6 +90,12 @@ namespace Bookrental.Services
             }
 
             _context.DbBook.Remove(dbBook);
+
+            if (dbBook.RentedDetails == null)
+            {
+                dbBook.RentedDetails ??= "";
+            }
+
             await _context.SaveChangesAsync();
 
             await _context.DbBook.ToListAsync();
