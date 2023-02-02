@@ -31,7 +31,7 @@ namespace Bookrental.Services
             }
 
             _context.SaveChanges();
-            _context.DbBook.Where(x => x.BookName == bookName)
+            _context.DbBook?.Where(x => x.BookName == bookName)
                 .FirstOrDefaultAsync();
             return book;
         }
@@ -40,7 +40,7 @@ namespace Bookrental.Services
         {
             var book = _context.DbBook.Find(bookId);
 
-            if (book == null)
+            if (book == null)   
             {
                throw new Exception ("Book not found.");
             }
