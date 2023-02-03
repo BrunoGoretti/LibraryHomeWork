@@ -1,15 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Bookrental.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit.Sdk;
-using Xunit;
 using Microsoft.EntityFrameworkCore;
 using Bookrental.Data;
-using Microsoft.Extensions.Options;
 using Bookrental.Models;
 
 namespace Bookrental.Services.Tests
@@ -169,7 +161,6 @@ namespace Bookrental.Services.Tests
                 // Assert
                 Assert.AreEqual("Book not found.", ex.Message);
             }
-
         }
 
         [TestMethod]
@@ -191,8 +182,6 @@ namespace Bookrental.Services.Tests
         [TestMethod]
         public async Task DeleteBook_ShouldThrowExceptionWhenBookNotFound()
         {
-            // Arrange
-
             // Act
             try
             {

@@ -34,7 +34,6 @@ namespace Bookrental.Services
                 throw new Exception ("Book is already rented.");
             }
 
-
             book.RentedDetails = $"Rented by {customer.CustomerName} on {DateTime.Now}";
             _context.DbBook.Update(book);
 
@@ -54,9 +53,7 @@ namespace Bookrental.Services
             customer.RentedBooks.Add(book);
             _context.DbCustomer.Update(customer);
 
-
             await _context.SaveChangesAsync();
-
 
             return book;
         }
@@ -69,6 +66,11 @@ namespace Bookrental.Services
             if (book == null)
             {
                 throw new Exception("Book not found.");
+            }
+
+            if (customer == null)
+            {
+                throw new Exception("Customer not found.");
             }
 
             var rentedBooks = _context.DbBook

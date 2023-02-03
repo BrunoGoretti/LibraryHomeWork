@@ -24,7 +24,6 @@ namespace Bookrental.Services
             var book = new BookModel { BookName = bookName };
             _context.DbBook.Add(book);
 
-
             if (book.RentedDetails == null)
             {
                 book.RentedDetails ??= "";
