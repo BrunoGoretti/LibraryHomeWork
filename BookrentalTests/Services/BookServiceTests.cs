@@ -163,6 +163,15 @@ namespace Bookrental.Services.Tests
             }
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            using (var context = new ApiContext(_options))
+            {
+                context.Database.EnsureDeleted();
+            }
+        }
+
         [TestMethod]
         public async Task DeleteBook_ShouldDeleteBookSuccessfully()
         {

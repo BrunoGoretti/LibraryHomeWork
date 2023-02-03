@@ -133,6 +133,15 @@ namespace BookrentalTests.Services
             Assert.AreEqual(newCustomerName, updatedCustomer.CustomerName);
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            using (var context = new ApiContext(_options))
+            {
+                context.Database.EnsureDeleted();
+            }
+        }
+
         [TestMethod]
         public async Task DeleteCustomer_WithValidInput_DeletesCustomerFromContext()
         {
