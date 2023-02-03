@@ -82,8 +82,6 @@ namespace BookrentalTests.Services
             await Assert.ThrowsExceptionAsync<Exception>(() => _rentService.Rent(bookId, customerId), "Book is already rented.");
         }
 
-        
-
         [TestMethod]
         public async Task Rent_CustomerHasAlreadyRentedTwoBooks_ThrowsException()
         {
@@ -186,7 +184,6 @@ namespace BookrentalTests.Services
             Assert.AreEqual("Book not found.", exception.Message);
         }
 
-
         [TestCleanup]
         public void TestCleanup()
         {
@@ -224,35 +221,5 @@ namespace BookrentalTests.Services
             var exception = await Assert.ThrowsExceptionAsync<Exception>(TestReturn);
             Assert.AreEqual("Customer not found.", exception.Message);
         }
-
-        //[TestMethod]
-        //public async Task Return_CustomerNotFound_ThrowsException()
-        //{
-        //    // Arrange
-        //    var customer = new CustomerModel
-        //    {
-        //        CustomerId = 1,
-        //        RentedBooks = new List<BookModel>()
-        //    };
-
-        //    var book = new BookModel
-        //    {
-        //        BookId = 1,
-        //        RentedDetails = "Rented by Customer 1"
-        //    };
-
-        //    customer.RentedBooks.Add(book);
-        //    _context.CustomerModel.Add(customer);
-        //    _context.BookModel.Add(book);
-        //    await _context.SaveChangesAsync();
-
-        //    // Act
-        //    async Task TestReturn() => await _rentService.Return(book.BookId, 2);
-
-        //    // Assert
-        //    var exception = await Assert.ThrowsExceptionAsync<Exception>(TestReturn);
-        //    Assert.AreEqual("Book not found.", exception.Message);
-        //}
-
     }
 }

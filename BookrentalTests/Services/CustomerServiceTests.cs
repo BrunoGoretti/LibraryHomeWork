@@ -13,7 +13,6 @@ namespace BookrentalTests.Services
         private ApiContext _context;
         private DbContextOptions<ApiContext> _options;
 
-
         [TestInitialize]
         public void TestInitialize()
         {
