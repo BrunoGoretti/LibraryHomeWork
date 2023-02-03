@@ -25,7 +25,7 @@ namespace Bookrental.Services
             }
 
             _context.SaveChanges();
-            _context.DbCustomer.Where(x => x.CustomerName == customerName).FirstOrDefaultAsync();
+            _context.DbCustomer?.Where(x => x.CustomerName == customerName).FirstOrDefaultAsync();
             return customer;
         }
 
@@ -84,7 +84,6 @@ namespace Bookrental.Services
 
         public async Task<CustomerModel> DeleteCustomer(int customerId)
         {
-
             var customer = _context.DbCustomer.Find(customerId);
             if (customer == null)
             {
