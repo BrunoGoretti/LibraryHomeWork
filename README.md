@@ -21,4 +21,10 @@ A book can only be rented put by one customer at any point in time
 A customer is only allowed to rent up to two books simultaneously 
 A customer cannot be removed if he is currently renting any books
 
-#How use
+# How to launch and use program
+
+You need a downland this repository and open in C# Visual Studio.
+Create Migrations for SQL Server Management Studio.
+
+I hope my project can be useful for you!
+Thank you!
