@@ -13,7 +13,7 @@ nGet a book, including whether it is rented out to a customer or not if rented i
 Get all books 
 Update a book 
 Remove a book
-
+\n
 Rent a book 
 Return a book
 
