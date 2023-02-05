@@ -1,10 +1,10 @@
 # Book rental C# 📚
 
-In this program you can:
+`In this program you can:`
 
 Add a customer
-`\n` Get a customer, including any rented books 
-\n Get all customers 
+ Get a customer, including any rented books 
+ Get all customers 
 Update a customer 
 Remove a customer
 
