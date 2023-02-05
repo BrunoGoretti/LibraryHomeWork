@@ -1,4 +1,4 @@
-# Book rental C#
+# Book rental C# 📚
 
 In this program you can:
 
