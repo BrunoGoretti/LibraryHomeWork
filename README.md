@@ -3,7 +3,7 @@
 In this program you can:
 
 Add a customer
-\nLine 2 Get a customer, including any rented books 
+`\n` Get a customer, including any rented books 
 \n Get all customers 
 Update a customer 
 Remove a customer
