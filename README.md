@@ -9,7 +9,7 @@
 - Update a customer 
 - Remove a customer
 
-🧍‍♂️
+🧍‍🧍‍♀️
 - Add a book 
 - Get a book, including whether it is rented out to a customer or not if rented include customer details
 - Get all books 
