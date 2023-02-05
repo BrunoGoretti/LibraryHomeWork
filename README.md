@@ -20,6 +20,7 @@
 - Rent a book 
 - Return a book
 
+📄
 A book can only be rented put by one customer at any point in time
 
 A customer is only allowed to rent up to two books simultaneously 
