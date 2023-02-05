@@ -2,13 +2,12 @@
 
 `In this program you can:`
 
-\n
+
 Add a customer
 Get a customer, including any rented books 
 Get all customers 
 Update a customer 
 Remove a customer
-\n
 
 Add a book 
 nGet a book, including whether it is rented out to a customer or not if rented include customer details
