@@ -3,7 +3,7 @@
 `In this program you can:`
 
 
-<\nAdd a customer>
+Add a customer
 
 Get a customer, including any rented books 
 Get all customers 
