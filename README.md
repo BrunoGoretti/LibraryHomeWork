@@ -30,7 +30,5 @@ You need a downland this repository and open in ```C#``` ```Visual Studio```.
 Create Migrations for ```SQL Server Management Studio```.
 
 
-### Conclusion
-
 I hope my project can be useful for you!
 Thank you!
