@@ -4,6 +4,7 @@
 
 
 Add a customer
+
 Get a customer, including any rented books 
 Get all customers 
 Update a customer 
