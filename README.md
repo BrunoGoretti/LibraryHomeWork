@@ -3,8 +3,8 @@
 In this program you can:
 
 Add a customer
-\nGet a customer, including any rented books 
-\nGet all customers 
+\n Get a customer, including any rented books 
+\n Get all customers 
 Update a customer 
 Remove a customer
 
