@@ -8,7 +8,7 @@ Add a customer
 Update a customer 
 Remove a customer
 
-```Add a book 
+Add a book 
 Get a book, including whether it is rented out to a customer or not if rented include customer details 
 Get all books 
 Update a book 
@@ -23,7 +23,7 @@ A customer cannot be removed if he is currently renting any books
 
 ## How to launch and use program
 
-You need a downland this repository and open in C# Visual Studio. 
+You need a downland this repository and open in ```C# Visual Studio```. 
 Create Migrations for SQL Server Management Studio.
 
 I hope my project can be useful for you!
