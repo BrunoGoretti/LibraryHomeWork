@@ -2,8 +2,7 @@
 
 In this program you can:
 
-Add a customer 
-\t  Get a customer, including any rented books 
+Add a customer \nGet a customer, including any rented books 
 Get all customers 
 Update a customer 
 Remove a customer
