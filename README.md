@@ -33,6 +33,7 @@ A customer cannot be removed if he is currently renting any books
 You need a downland this repository and open in ```C#``` ```Visual Studio```. 
 Create Migrations for ```SQL Server Management Studio```.
 
+#
 
 I hope my project can be useful for you!
 Thank you!
